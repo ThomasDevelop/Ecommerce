@@ -35,6 +35,13 @@ public class PessoaDAOImpl implements IPessoaDAO {
 
     @Override
     public void adicionarPessoa(PessoaDTO pessoaDTO) throws SQLException {
+        if (emailExiste(pessoaDTO.getEmail())) {
+            throw new SQLException("Erro ao adicionar pessoa: O email já existe.");
+        }
+        if (cpfExiste(pessoaDTO.getCpf())) {
+            throw new SQLException("Erro ao adicionar pessoa: O CPF já existe.");
+        }
+
         String sql = "INSERT INTO PESSOA (nome, email, cpf, senha) VALUES (?, ?, ?, ?)";
         try (Connection connection = Conexao.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -44,5 +51,31 @@ public class PessoaDAOImpl implements IPessoaDAO {
             ps.setString(4, pessoaDTO.getSenha());
             ps.executeUpdate();
         }
+    }
+
+    public boolean emailExiste(String email) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM PESSOA WHERE email = ?";
+        try (Connection connection = Conexao.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+
+    public boolean cpfExiste(String cpf) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM PESSOA WHERE cpf = ?";
+        try (Connection connection = Conexao.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, cpf);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
     }
 }
