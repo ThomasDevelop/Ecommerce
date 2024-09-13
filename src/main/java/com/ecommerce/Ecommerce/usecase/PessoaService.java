@@ -36,7 +36,6 @@ public class PessoaService {
             }
 
             pessoaDAOImpl.adicionarPessoa(pessoaDTO);
-            System.out.println("Pessoa adicionada com sucesso!");
 
         } catch (SQLException e) {
             System.out.println("Erro ao adicionar pessoa: " + e.getMessage());

@@ -2,10 +2,8 @@ package com.ecommerce.Ecommerce.usecase;
 
 import com.ecommerce.Ecommerce.dao.impl.CarrinhoDAOImpl;
 import com.ecommerce.Ecommerce.dto.CarrinhoDTO;
-import com.ecommerce.Ecommerce.dto.ProdutoDTO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoService {
@@ -16,17 +14,19 @@ public class CarrinhoService {
         try {
             carrinhoDAOImpl.adicionarAoCarrinho(carrinhoDTO);
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("erro ao adicionar produto ao carrinho");
         }
     }
-    public void listarCarrinho(int idPessoa){
+
+    public void listarCarrinho(int idPessoa) {
         List<CarrinhoDTO> carrinho = null;
         try {
             carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(idPessoa);
 
-            if (carrinho != null && !carrinho.isEmpty()){
+            if (carrinho != null && !carrinho.isEmpty()) {
                 System.out.println("-------------------\nLista de Carrinho da Pessoa com ID: " + idPessoa);
-                for (CarrinhoDTO c : carrinho){
+                for (CarrinhoDTO c : carrinho) {
                     System.out.println("ID Produto: " + c.getIdProduto() +
                             "\nQuantidade: " + c.getQuantidade() +
                             "\nPreço Total: " + c.getPrecoTotal());

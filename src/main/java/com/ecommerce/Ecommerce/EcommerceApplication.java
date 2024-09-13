@@ -3,16 +3,14 @@ package com.ecommerce.Ecommerce;
 import com.ecommerce.Ecommerce.usecase.CarrinhoService;
 import com.ecommerce.Ecommerce.usecase.PessoaService;
 import com.ecommerce.Ecommerce.usecase.ProdutoService;
-import com.ecommerce.Ecommerce.util.ValidaOpcao;
-import com.ecommerce.Ecommerce.util.ValidarEmail;
-import com.ecommerce.Ecommerce.util.ValidarSenha;
+import com.ecommerce.Ecommerce.util.*;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EcommerceApplication {
-    public static Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
     private static byte opcao;
     private static ProdutoService produtoService = new ProdutoService();
     private static PessoaService pessoaService = new PessoaService();
@@ -290,10 +288,8 @@ public class EcommerceApplication {
                 System.out.println("Entrada inválida.");
             }
         }
-        System.out.println("Produto adicionado ao carrinho: ID Pessoa: " + idPessoa + ", ID Produto: " + idProduto + ", Quantidade: " + quantidade);
-
         carrinhoService.adicionarAoCarrinho(idPessoa, idProduto, quantidade);
-        System.out.println("Produto adicionado ao carrinho.");
+        System.out.println("Produto adicionado ao carrinho:"+"\nID Produto: " + idProduto + "\nQuantidade: " + quantidade);
     }
 
     private static void finalizarCompra() {
@@ -316,6 +312,5 @@ public class EcommerceApplication {
         } while (!ValidarSenha.validar(senha));
 
         carrinhoService.finalizarCompra(email, senha);
-        System.out.println("Compra Realizada.");
     }
 }
