@@ -9,17 +9,21 @@ import java.util.List;
 public class PessoaService {
     private static PessoaDAOImpl pessoaDAOImpl = new PessoaDAOImpl();
 
-    public static void listarPessoa() throws SQLException {
-        List<PessoaDTO> pessoas = pessoaDAOImpl.listarPessoas();
-        if (pessoas != null && !pessoas.isEmpty()) {
-            for (PessoaDTO p : pessoas) {
-                System.out.println("-------------------\nLista de Pessoas");
-                System.out.println("\nNome: " + p.getNome() +
-                        "\nCpf: " + p.getCpf() + "\nEmail: " + p.getEmail());
-                System.out.println("-------------------");
+    public static void listarPessoa() {
+        try {
+            List<PessoaDTO> pessoas = pessoaDAOImpl.listarPessoas();
+            if (pessoas != null && !pessoas.isEmpty()) {
+                for (PessoaDTO p : pessoas) {
+                    System.out.println("-------------------\nLista de Pessoas");
+                    System.out.println("\nNome: " + p.getNome() +
+                            "\nCpf: " + p.getCpf() + "\nEmail: " + p.getEmail());
+                    System.out.println("-------------------");
+                }
+            } else {
+                System.out.println("Nenhuma pessoa encontrada.");
             }
-        } else {
-            System.out.println("Nenhuma pessoa encontrada.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar pessoa: " + e.getMessage());
         }
     }
 

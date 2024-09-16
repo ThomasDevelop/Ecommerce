@@ -42,7 +42,6 @@ public class CarrinhoService {
         }
     }
 
-
     public void finalizarCompra(String email, String senha) {
         try {
             carrinhoDAOImpl.finalizarCompra(email, senha);

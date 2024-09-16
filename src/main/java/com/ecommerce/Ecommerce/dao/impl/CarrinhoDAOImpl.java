@@ -87,16 +87,18 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
 
                 System.out.println("Itens no carrinho:");
                 for (CarrinhoDTO item : carrinho) {
-                    System.out.println("\nProduto ID: " + item.getIdProduto() +
-                            "\nQuantidade: " + item.getQuantidade() +
-                            "\nPreço Total: " + item.getPrecoTotal());
+                    System.out.println("Produto ID: " + item.getIdProduto() +
+                            ", Quantidade: " + item.getQuantidade() +
+                            ", Preço Total: " + item.getPrecoTotal());
                 }
-                System.out.println("Valor total da compra: " + valorTotalCompra + "\nCompra realizada com sucesso");
+                System.out.println("Valor total da compra: " + valorTotalCompra);
 
                 String limparCarrinhoSql = "DELETE FROM Carrinho WHERE idPessoa = ?";
                 PreparedStatement psLimpar = connection.prepareStatement(limparCarrinhoSql);
                 psLimpar.setInt(1, idPessoa);
                 psLimpar.executeUpdate();
+            } else {
+                throw new RuntimeException("Email ou senha inválidos.");
             }
         }
     }

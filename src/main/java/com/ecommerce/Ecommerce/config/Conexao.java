@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private Conexao(){}
+    private Conexao() {
+    }
+
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VendaEcommerce", "postgres", "thomas10");

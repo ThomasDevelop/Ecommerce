@@ -3,7 +3,9 @@ package com.ecommerce.Ecommerce;
 import com.ecommerce.Ecommerce.usecase.CarrinhoService;
 import com.ecommerce.Ecommerce.usecase.PessoaService;
 import com.ecommerce.Ecommerce.usecase.ProdutoService;
-import com.ecommerce.Ecommerce.util.*;
+import com.ecommerce.Ecommerce.util.ValidaOpcao;
+import com.ecommerce.Ecommerce.util.ValidarEmail;
+import com.ecommerce.Ecommerce.util.ValidarSenha;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -20,7 +22,7 @@ public class EcommerceApplication {
         exibirMenuPrincipal();
     }
 
-    public static void exibirMenuPrincipal() throws SQLException {
+    public static void exibirMenuPrincipal() {
         while (true) {
             System.out.println(" Ecommerce\nEscolha uma opção digitando entre 1, 2, 3 ou 0 para sair\n");
             System.out.println("[1] Produto");
@@ -31,7 +33,6 @@ public class EcommerceApplication {
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
                 opcao = Byte.parseByte(entrada);
-
                 switch (opcao) {
                     case 1:
                         exibirMenuProduto();
@@ -50,7 +51,6 @@ public class EcommerceApplication {
                 }
             } else {
                 System.out.println("Opção inválida.");
-
             }
         }
     }
@@ -65,7 +65,6 @@ public class EcommerceApplication {
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
                 opcao = Byte.parseByte(entrada);
-
                 switch (opcao) {
                     case 1:
                         produtoService.listarProdutos();
@@ -74,7 +73,6 @@ public class EcommerceApplication {
                         String nome;
                         int quantidade = -1;
                         double preco = -1.0;
-
                         do {
                             System.out.println("Digite o nome do produto:");
                             nome = scanner.nextLine();
@@ -113,10 +111,8 @@ public class EcommerceApplication {
                                 System.out.println("Entrada inválida.");
                             }
                         } while (preco <= 0);
-
                         produtoService.adicionarProduto(nome, quantidade, preco);
                         break;
-
                     case 0:
                         return;
                     default:
@@ -129,7 +125,7 @@ public class EcommerceApplication {
         }
     }
 
-    public static void exibirMenuPessoa() throws SQLException {
+    public static void exibirMenuPessoa() {
         while (true) {
             System.out.println("Sessão Menu Usuario\n");
             System.out.println("[1] Ver Usuarios.");
@@ -170,20 +166,19 @@ public class EcommerceApplication {
                 System.out.println("Digite o seu nome:");
                 nome = scanner.nextLine();
                 if (!nome.matches("[a-zA-Z\\s]+")) {
-                    System.out.println("O nome não pode conter números ou caracteres especiais.");
+                    System.out.println("O nome deve ser com letras.");
                 }
             } while (!nome.matches("[a-zA-Z\\s]+"));
             do {
                 System.out.println("Digite o email:");
                 email = scanner.nextLine();
                 if (!ValidarEmail.validar(email)) {
-                    System.out.println("Email inválido. Por favor, insira um email válido.");
+                    System.out.println("Email inválido. Insira um email válido.");
                 } else if (pessoaService.emailExiste(email)) {
                     System.out.println("Erro: O email já está cadastrado.");
                     return;
                 }
             } while (!ValidarEmail.validar(email));
-
             do {
                 System.out.println("Digite o CPF:");
                 cpf = scanner.nextLine();
@@ -194,7 +189,6 @@ public class EcommerceApplication {
                     return;
                 }
             } while (!cpf.matches("\\d{11}"));
-
             do {
                 System.out.println("Digite sua senha (deve ter 8 ou mais caracteres):");
                 senha = scanner.nextLine();
@@ -202,10 +196,8 @@ public class EcommerceApplication {
                     System.out.println("Senha inválida. A senha deve ter pelo menos 8 caracteres.");
                 }
             } while (!ValidarSenha.validar(senha));
-
             pessoaService.adicionarPessoa(nome, email, cpf, senha);
             System.out.println("Usuário adicionado com sucesso!");
-
         } catch (InputMismatchException e) {
             System.out.println("Erro de input: " + e.getMessage());
         }
@@ -217,7 +209,6 @@ public class EcommerceApplication {
             System.out.println("[2] Finalizar Compra");
             System.out.println("[3] Produtos no carrinho");
             System.out.println("[0] Voltar");
-
 
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
@@ -254,7 +245,6 @@ public class EcommerceApplication {
                 System.out.println("Digite o seu ID:");
                 String inputPessoa = scanner.nextLine();
                 idPessoa = Integer.parseInt(inputPessoa);
-
                 if (idPessoa < 0) {
                     System.out.println("Id invalido.");
                 }
@@ -267,7 +257,6 @@ public class EcommerceApplication {
                 System.out.println("Digite o ID do produto:");
                 String inputProduto = scanner.nextLine();
                 idProduto = Integer.parseInt(inputProduto);
-
                 if (idProduto < 0) {
                     System.out.println("O ID do produto invalido.");
                 }
@@ -280,7 +269,6 @@ public class EcommerceApplication {
                 System.out.println("Digite a quantidade desejada:");
                 String inputQuantidade = scanner.nextLine();
                 quantidade = Integer.parseInt(inputQuantidade);
-
                 if (quantidade <= 0) {
                     System.out.println("A quantidade deve ser maior que zero.");
                 }
@@ -289,13 +277,12 @@ public class EcommerceApplication {
             }
         }
         carrinhoService.adicionarAoCarrinho(idPessoa, idProduto, quantidade);
-        System.out.println("Produto adicionado ao carrinho:"+"\nID Produto: " + idProduto + "\nQuantidade: " + quantidade);
+        System.out.println("Produto adicionado ao carrinho:" + "\nID Produto: " + idProduto + "\nQuantidade: " + quantidade);
     }
 
     private static void finalizarCompra() {
         String email;
         String senha;
-
         do {
             System.out.println("Digite o seu email:");
             email = scanner.nextLine();
@@ -310,7 +297,6 @@ public class EcommerceApplication {
                 System.out.println("Senha inválida.");
             }
         } while (!ValidarSenha.validar(senha));
-
         carrinhoService.finalizarCompra(email, senha);
     }
 }
