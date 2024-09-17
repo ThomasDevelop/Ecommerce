@@ -44,7 +44,23 @@ public class CarrinhoService {
 
     public void finalizarCompra(String email, String senha) {
         try {
-            carrinhoDAOImpl.finalizarCompra(email, senha);
+            int idPessoa = carrinhoDAOImpl.verificarUsuario(email, senha);
+
+            List<CarrinhoDTO> carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(idPessoa);
+            double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
+
+            if (carrinho.isEmpty()) {
+                throw new RuntimeException("Carrinho está vazio.");
+            }
+            System.out.println("Itens no carrinho:");
+            for (CarrinhoDTO item : carrinho) {
+                System.out.println("Produto ID: " + item.getIdProduto() +
+                        ", Quantidade: " + item.getQuantidade() +
+                        ", Preço Total: " + item.getPrecoTotal());
+            }
+            System.out.println("Valor total da compra: " + valorTotalCompra);
+
+            carrinhoDAOImpl.finalizarCompra(idPessoa);
         } catch (SQLException e) {
             System.err.println("Erro ao finalizar a compra: " + e.getMessage());
             e.printStackTrace();

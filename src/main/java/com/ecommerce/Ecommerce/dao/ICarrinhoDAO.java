@@ -8,5 +8,5 @@ import java.util.List;
 public interface ICarrinhoDAO {
     void adicionarAoCarrinho(CarrinhoDTO carrinhoDTO) throws SQLException;
     List<CarrinhoDTO> listarCarrinhoPorPessoa(int idPessoa) throws SQLException;
-    void finalizarCompra(String email, String senha) throws SQLException;
+    void finalizarCompra(int idPessoa) throws SQLException;
 }

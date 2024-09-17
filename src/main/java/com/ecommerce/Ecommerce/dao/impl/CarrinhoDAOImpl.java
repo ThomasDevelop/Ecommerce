@@ -45,6 +45,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             }
         }
     }
+
     @Override
     public List<CarrinhoDTO> listarCarrinhoPorPessoa(int idPessoa) throws SQLException {
         List<CarrinhoDTO> carrinho = new ArrayList<>();
@@ -67,38 +68,28 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
         return carrinho;
     }
     @Override
-    public void finalizarCompra(String email, String senha) throws SQLException {
+    public void finalizarCompra(int idPessoa) throws SQLException {
         try (Connection connection = Conexao.getConnection()) {
-            String verificarPessoaSql = "SELECT id FROM Pessoa WHERE email = ? AND senha = ?";
-            PreparedStatement psVerificar = connection.prepareStatement(verificarPessoaSql);
-            psVerificar.setString(1, email);
-            psVerificar.setString(2, senha);
-            ResultSet rsPessoa = psVerificar.executeQuery();
-
-            if (rsPessoa.next()) {
-                int idPessoa = rsPessoa.getInt("id");
-
-                List<CarrinhoDTO> carrinho = listarCarrinhoPorPessoa(idPessoa);
-                double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
-
-                if (carrinho.isEmpty()) {
-                    throw new RuntimeException("Carrinho está vazio.");
-                }
-
-                System.out.println("Itens no carrinho:");
-                for (CarrinhoDTO item : carrinho) {
-                    System.out.println("Produto ID: " + item.getIdProduto() +
-                            ", Quantidade: " + item.getQuantidade() +
-                            ", Preço Total: " + item.getPrecoTotal());
-                }
-                System.out.println("Valor total da compra: " + valorTotalCompra);
-
-                String limparCarrinhoSql = "DELETE FROM Carrinho WHERE idPessoa = ?";
-                PreparedStatement psLimpar = connection.prepareStatement(limparCarrinhoSql);
+            String limparCarrinhoSql = "DELETE FROM Carrinho WHERE idPessoa = ?";
+            try (PreparedStatement psLimpar = connection.prepareStatement(limparCarrinhoSql)) {
                 psLimpar.setInt(1, idPessoa);
                 psLimpar.executeUpdate();
-            } else {
-                throw new RuntimeException("Email ou senha inválidos.");
+            }
+        }
+    }
+    public int verificarUsuario(String email, String senha) throws SQLException {
+        try (Connection connection = Conexao.getConnection()) {
+            String verificarPessoaSql = "SELECT id FROM Pessoa WHERE email = ? AND senha = ?";
+            try (PreparedStatement psVerificar = connection.prepareStatement(verificarPessoaSql)) {
+                psVerificar.setString(1, email);
+                psVerificar.setString(2, senha);
+                ResultSet rsPessoa = psVerificar.executeQuery();
+
+                if (rsPessoa.next()) {
+                    return rsPessoa.getInt("id");
+                } else {
+                    throw new RuntimeException("Email ou senha inválidos.");
+                }
             }
         }
     }
