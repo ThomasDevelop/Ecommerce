@@ -28,7 +28,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
                     return;
                 }
 
-                String sql = "INSERT INTO Carrinho (idPessoa, idProduto, quantidade, preco_total) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO Carrinho VALUES (?, ?, ?, ?)";
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ps.setInt(1, carrinhoDTO.getIdPessoa());
                 ps.setInt(2, carrinhoDTO.getIdProduto());
