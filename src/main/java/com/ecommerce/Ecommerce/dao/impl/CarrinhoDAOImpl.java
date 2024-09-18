@@ -15,37 +15,51 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
     @Override
     public void adicionarAoCarrinho(CarrinhoDTO carrinhoDTO) throws SQLException {
         try (Connection connection = Conexao.getConnection()) {
-            String verificarEstoqueSql = "SELECT quantidade, preco FROM Produto WHERE idProduto = ?";
-            PreparedStatement psVerificar = connection.prepareStatement(verificarEstoqueSql);
-            psVerificar.setInt(1, carrinhoDTO.getIdProduto());
-            ResultSet rs = psVerificar.executeQuery();
+            String verificarProdutoSql = "SELECT quantidade, preco FROM Produto WHERE idProduto = ?";
+            PreparedStatement psVerificarProduto = connection.prepareStatement(verificarProdutoSql);
+            psVerificarProduto.setInt(1, carrinhoDTO.getIdProduto());
+            ResultSet rsProduto = psVerificarProduto.executeQuery();
 
-            if (rs.next()) {
-                int quantidadeDisponivel = rs.getInt("quantidade");
-                double preco = rs.getDouble("preco");
-                if (quantidadeDisponivel < carrinhoDTO.getQuantidade()) {
-                    System.out.println("Quantidade insuficiente no estoque.");
-                    return;
-                }
-
-                String sql = "INSERT INTO Carrinho VALUES (?, ?, ?, ?)";
-                PreparedStatement ps = connection.prepareStatement(sql);
-                ps.setInt(1, carrinhoDTO.getIdPessoa());
-                ps.setInt(2, carrinhoDTO.getIdProduto());
-                ps.setInt(3, carrinhoDTO.getQuantidade());
-                ps.setDouble(4, carrinhoDTO.getQuantidade() * preco);
-                ps.executeUpdate();
-
-                String atualizarEstoqueSql = "UPDATE Produto SET quantidade = quantidade - ? WHERE idProduto = ?";
-                PreparedStatement psAtualizar = connection.prepareStatement(atualizarEstoqueSql);
-                psAtualizar.setInt(1, carrinhoDTO.getQuantidade());
-                psAtualizar.setInt(2, carrinhoDTO.getIdProduto());
-                psAtualizar.executeUpdate();
-            } else {
-                throw new RuntimeException("Produto não encontrado.");
+            if (!rsProduto.next()) {
+                System.out.println("Produto com ID " + carrinhoDTO.getIdProduto() + " não encontrado.");
+                return;
             }
+
+            String verificarPessoaSql = "SELECT id FROM Pessoa WHERE id = ?";
+            PreparedStatement psVerificarPessoa = connection.prepareStatement(verificarPessoaSql);
+            psVerificarPessoa.setInt(1, carrinhoDTO.getIdPessoa());
+            ResultSet rsPessoa = psVerificarPessoa.executeQuery();
+
+            if (!rsPessoa.next()) {
+                System.out.println("Pessoa com ID " + carrinhoDTO.getIdPessoa() + " não encontrada.");
+                return;
+            }
+
+            int quantidadeDisponivel = rsProduto.getInt("quantidade");
+            double preco = rsProduto.getDouble("preco");
+
+            if (quantidadeDisponivel < carrinhoDTO.getQuantidade()) {
+                System.out.println("Quantidade insuficiente no estoque.");
+                return;
+            }
+
+            String sql = "INSERT INTO Carrinho (idpessoa, idproduto, quantidade, preco_total) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, carrinhoDTO.getIdPessoa());
+            ps.setInt(2, carrinhoDTO.getIdProduto());
+            ps.setInt(3, carrinhoDTO.getQuantidade());
+            ps.setDouble(4, carrinhoDTO.getQuantidade() * preco);
+            ps.executeUpdate();
+
+            String atualizarEstoqueSql = "UPDATE Produto SET quantidade = quantidade - ? WHERE idProduto = ?";
+            PreparedStatement psAtualizar = connection.prepareStatement(atualizarEstoqueSql);
+            psAtualizar.setInt(1, carrinhoDTO.getQuantidade());
+            psAtualizar.setInt(2, carrinhoDTO.getIdProduto());
+            psAtualizar.executeUpdate();
+
         }
     }
+
 
     @Override
     public List<CarrinhoDTO> listarCarrinhoPorPessoa(int idPessoa) throws SQLException {
