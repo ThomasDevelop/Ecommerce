@@ -50,7 +50,8 @@ public class CarrinhoService {
             double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
 
             if (carrinho.isEmpty()) {
-                System.out.println("Carrinho está vazio");
+                System.out.println("Nao á itens no carrinho\n");
+                return;
             }
             System.out.println("Itens no carrinho:");
             for (CarrinhoDTO item : carrinho) {

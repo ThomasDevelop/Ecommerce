@@ -110,8 +110,10 @@ public class EcommerceApplication {
                             } catch (NumberFormatException e) {
                                 System.out.println("Entrada inválida.");
                             }
+
                         } while (preco <= 0);
                         produtoService.adicionarProduto(nome, quantidade, preco);
+                        System.out.println("Produto adicionado");
                         break;
                     case 0:
                         return;

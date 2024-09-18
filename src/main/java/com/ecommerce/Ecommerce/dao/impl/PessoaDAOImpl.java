@@ -42,7 +42,7 @@ public class PessoaDAOImpl implements IPessoaDAO {
             throw new SQLException("Erro ao adicionar pessoa: O CPF já existe.");
         }
 
-        String sql = "INSERT INTO PESSOA VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO PESSOA (nome, email, cpf, senha) VALUES (?, ?, ?, ?)";
         try (Connection connection = Conexao.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, pessoaDTO.getNome());
