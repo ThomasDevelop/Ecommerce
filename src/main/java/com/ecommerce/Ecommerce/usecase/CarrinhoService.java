@@ -33,7 +33,7 @@ public class CarrinhoService {
                     System.out.println("-------------------");
                 }
             } else {
-                System.out.println("Nenhum produto encontrado no carrinho para a pessoa com ID: " + idPessoa);
+                System.out.println("Nenhum produto encontrado no carrinho");
             }
         } catch (SQLException e) {
             System.err.println("Erro ao listar carrinho: " + e.getMessage());
