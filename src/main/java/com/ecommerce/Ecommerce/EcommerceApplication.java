@@ -24,7 +24,7 @@ public class EcommerceApplication {
 
     public static void exibirMenuPrincipal() {
         while (true) {
-            System.out.println(" Ecommerce\nEscolha uma opção digitando entre 1, 2, 3 ou 0 para sair\n");
+            System.out.println("\n     Ecommerce\nEscolha uma opção digitando entre 1, 2, 3 ou 0 para sair");
             System.out.println("[1] Produto");
             System.out.println("[2] Cadastre-se");
             System.out.println("[3] Fazer a Compra");
@@ -57,7 +57,7 @@ public class EcommerceApplication {
 
     public static void exibirMenuProduto() {
         while (true) {
-            System.out.println("Sessão Menu Produto\n");
+            System.out.println("\nSessão Menu Produto");
             System.out.println("[1] Ver Produtos.");
             System.out.println("[2] Adicionar Produto.");
             System.out.println("[0] Voltar para o menu principal.");
@@ -127,7 +127,7 @@ public class EcommerceApplication {
 
     public static void exibirMenuPessoa() {
         while (true) {
-            System.out.println("Sessão Menu Usuario\n");
+            System.out.println("\nSessão Menu Usuario");
             System.out.println("[1] Ver Usuarios.");
             System.out.println("[2] Adicionar Usuario.");
             System.out.println("[0] Voltar para o menu principal.");
@@ -204,6 +204,7 @@ public class EcommerceApplication {
     }
 
     public static void exibirMenuCarrinho() {
+        System.out.println("\nMenu Carrinho");
         while (true) {
             System.out.println("[1] Adicionar Produto ao Carrinho");
             System.out.println("[2] Finalizar Compra");
@@ -227,6 +228,7 @@ public class EcommerceApplication {
                     carrinhoService.listarCarrinho(idPessoa);
                     break;
                 case 0:
+                    exibirMenuPrincipal();
                     return;
                 default:
                     System.out.println("Opção inválida.");

@@ -50,7 +50,7 @@ public class CarrinhoService {
             double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
 
             if (carrinho.isEmpty()) {
-                throw new RuntimeException("Carrinho está vazio.");
+                System.out.println("Carrinho está vazio");
             }
             System.out.println("Itens no carrinho:");
             for (CarrinhoDTO item : carrinho) {
@@ -58,7 +58,7 @@ public class CarrinhoService {
                         ", Quantidade: " + item.getQuantidade() +
                         ", Preço Total: " + item.getPrecoTotal());
             }
-            System.out.println("Valor total da compra: " + valorTotalCompra);
+            System.out.println("Valor total da compra: " + valorTotalCompra +"\n");
 
             carrinhoDAOImpl.finalizarCompra(idPessoa);
         } catch (SQLException e) {
