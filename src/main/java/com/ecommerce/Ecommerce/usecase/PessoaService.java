@@ -38,9 +38,7 @@ public class PessoaService {
                 System.out.println("Erro: O CPF já está cadastrado.");
                 return;
             }
-
             pessoaDAOImpl.adicionarPessoa(pessoaDTO);
-
         } catch (SQLException e) {
             System.out.println("Erro ao adicionar pessoa: " + e.getMessage());
         }

@@ -37,7 +37,7 @@ public class ProdutoDAOImpl implements IProdutoDAO {
     @Override
     public void adicionarProduto(ProdutoDTO produtoDTO) {
         try (Connection connection = Conexao.getConnection()){
-        String sql = "INSERT INTO Produto (nome, quantidade, preco) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Produto VALUES (?, ?, ?)";
          PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, produtoDTO.getNome());
             ps.setInt(2, produtoDTO.getQuantidade());

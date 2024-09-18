@@ -24,7 +24,8 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
                 int quantidadeDisponivel = rs.getInt("quantidade");
                 double preco = rs.getDouble("preco");
                 if (quantidadeDisponivel < carrinhoDTO.getQuantidade()) {
-                    throw new RuntimeException("Quantidade insuficiente no estoque.");
+                    System.out.println("Quantidade insuficiente no estoque.");
+                    return;
                 }
 
                 String sql = "INSERT INTO Carrinho (idPessoa, idProduto, quantidade, preco_total) VALUES (?, ?, ?, ?)";
