@@ -225,9 +225,9 @@ public class EcommerceApplication {
                     finalizarCompra();
                     break;
                 case 3:
-                    System.out.println("Digite o seu ID:");
-                    int idPessoa = Integer.parseInt(scanner.nextLine());
-                    carrinhoService.listarCarrinho(idPessoa);
+                    System.out.println("Digite o seu CPF:");
+                    String cpf  = scanner.nextLine();
+                    carrinhoService.listarCarrinho(cpf);
                     break;
                 case 0:
                     exibirMenuPrincipal();
@@ -240,22 +240,26 @@ public class EcommerceApplication {
     }
 
     private static void adicionarProdutoAoCarrinho() {
-        int idPessoa = -1;
+        String cpf ;
         int idProduto = -1;
         int quantidade = -1;
 
-        while (idPessoa < 0) {
+        while (true) {
             try {
-                System.out.println("Digite o seu ID:");
+                System.out.println("Digite o seu CPF (apenas números):");
                 String inputPessoa = scanner.nextLine();
-                idPessoa = Integer.parseInt(inputPessoa);
-                if (idPessoa < 0) {
-                    System.out.println("Id invalido.");
+
+                if (inputPessoa.matches("\\d{11}")) {
+                    cpf = inputPessoa;
+                    break;
+                } else {
+                    System.out.println("CPF inválido.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. O id Deve ser numero.");
+            } catch (Exception e) {
+                System.out.println("Entrada inválida. O CPF deve conter apenas números.");
             }
         }
+
         while (idProduto < 0) {
             try {
                 System.out.println("Digite o ID do produto:");
@@ -280,8 +284,8 @@ public class EcommerceApplication {
                 System.out.println("Entrada inválida.");
             }
         }
-        carrinhoService.adicionarAoCarrinho(idPessoa, idProduto, quantidade);
-        System.out.println("Produto adicionado ao carrinho:" + "\nID Produto: " + idProduto + "\nQuantidade: " + quantidade);
+        carrinhoService.adicionarAoCarrinho(cpf, idProduto, quantidade);
+        System.out.println("----------------------" + "\nID Produto: " + idProduto + "\nQuantidade: " + quantidade + "\n----------------------");
     }
 
     private static void finalizarCompra() {

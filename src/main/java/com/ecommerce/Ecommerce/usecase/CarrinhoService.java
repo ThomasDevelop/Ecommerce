@@ -9,23 +9,23 @@ import java.util.List;
 public class CarrinhoService {
     private CarrinhoDAOImpl carrinhoDAOImpl = new CarrinhoDAOImpl();
 
-    public void adicionarAoCarrinho(int idPessoa, int idProduto, int quantidade) {
-        CarrinhoDTO carrinhoDTO = new CarrinhoDTO(idPessoa, idProduto, quantidade, 0.0);
+    public void adicionarAoCarrinho(String cpf, int idProduto, int quantidade) {
+        CarrinhoDTO carrinhoDTO = new CarrinhoDTO(cpf, idProduto, quantidade, 0.0);
         try {
             carrinhoDAOImpl.adicionarAoCarrinho(carrinhoDTO);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("erro ao adicionar produto ao carrinho");
+            System.out.println("Erro ao adicionar produto ao carrinho");
         }
     }
 
-    public void listarCarrinho(int idPessoa) {
+    public void listarCarrinho(String cpf) {
         List<CarrinhoDTO> carrinho = null;
         try {
-            carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(idPessoa);
+            carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(cpf);
 
             if (carrinho != null && !carrinho.isEmpty()) {
-                System.out.println("-------------------\nLista de Carrinho da Pessoa com ID: " + idPessoa);
+                System.out.println("-------------------\nLista de Carrinho do usuário com o CPF: " + cpf);
                 for (CarrinhoDTO c : carrinho) {
                     System.out.println("ID Produto: " + c.getIdProduto() +
                             "\nQuantidade: " + c.getQuantidade() +
@@ -38,19 +38,19 @@ public class CarrinhoService {
         } catch (SQLException e) {
             System.err.println("Erro ao listar carrinho: " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException("Erro ao listar carrinho para a pessoa com ID: " + idPessoa, e);
+            throw new RuntimeException("Erro ao listar carrinho para o usuário com CPF: " + cpf, e);
         }
     }
 
     public void finalizarCompra(String email, String senha) {
         try {
-            int idPessoa = carrinhoDAOImpl.verificarUsuario(email, senha);
+            String cpf = carrinhoDAOImpl.verificarUsuario(email, senha);
 
-            List<CarrinhoDTO> carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(idPessoa);
+            List<CarrinhoDTO> carrinho = carrinhoDAOImpl.listarCarrinhoPorPessoa(cpf);
             double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
 
             if (carrinho.isEmpty()) {
-                System.out.println("Nao á itens no carrinho\n");
+                System.out.println("Não há itens no carrinho\n");
                 return;
             }
             System.out.println("Itens no carrinho:");
@@ -61,7 +61,7 @@ public class CarrinhoService {
             }
             System.out.println("Valor total da compra: " + valorTotalCompra +"\n");
 
-            carrinhoDAOImpl.finalizarCompra(idPessoa);
+            carrinhoDAOImpl.finalizarCompra(cpf);
         } catch (SQLException e) {
             System.err.println("Erro ao finalizar a compra: " + e.getMessage());
             e.printStackTrace();

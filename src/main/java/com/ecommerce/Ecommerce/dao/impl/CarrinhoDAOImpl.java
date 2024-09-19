@@ -21,17 +21,17 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             ResultSet rsProduto = psVerificarProduto.executeQuery();
 
             if (!rsProduto.next()) {
-                System.out.println("Produto com ID " + carrinhoDTO.getIdProduto() + " não encontrado.");
+                System.out.println("Produto não encontrado.");
                 return;
             }
 
-            String verificarPessoaSql = "SELECT id FROM Pessoa WHERE id = ?";
+            String verificarPessoaSql = "SELECT cpf FROM Pessoa WHERE cpf = ?";
             PreparedStatement psVerificarPessoa = connection.prepareStatement(verificarPessoaSql);
-            psVerificarPessoa.setInt(1, carrinhoDTO.getIdPessoa());
+            psVerificarPessoa.setString(1, carrinhoDTO.getCpf());
             ResultSet rsPessoa = psVerificarPessoa.executeQuery();
 
             if (!rsPessoa.next()) {
-                System.out.println("Pessoa com ID " + carrinhoDTO.getIdPessoa() + " não encontrada.");
+                System.out.println("Usuário com o CPF " + carrinhoDTO.getCpf() + " não encontrado.");
                 return;
             }
 
@@ -43,9 +43,9 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
                 return;
             }
 
-            String sql = "INSERT INTO Carrinho (idpessoa, idproduto, quantidade, preco_total) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Carrinho (cpf, idProduto, quantidade, preco_total) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, carrinhoDTO.getIdPessoa());
+            ps.setString(1, carrinhoDTO.getCpf());
             ps.setInt(2, carrinhoDTO.getIdProduto());
             ps.setInt(3, carrinhoDTO.getQuantidade());
             ps.setDouble(4, carrinhoDTO.getQuantidade() * preco);
@@ -60,17 +60,17 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
         }
     }
     @Override
-    public List<CarrinhoDTO> listarCarrinhoPorPessoa(int idPessoa) throws SQLException {
+    public List<CarrinhoDTO> listarCarrinhoPorPessoa(String cpf) throws SQLException {
         List<CarrinhoDTO> carrinho = new ArrayList<>();
         try (Connection connection = Conexao.getConnection()) {
-            String sql = "SELECT c.idProduto, c.quantidade, c.preco_total FROM Carrinho c WHERE c.idPessoa = ?";
+            String sql = "SELECT c.cpf, c.idProduto, c.quantidade, c.preco_total FROM Carrinho c WHERE c.cpf = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, idPessoa);
+            ps.setString(1, cpf);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 CarrinhoDTO carrinhoDTO = new CarrinhoDTO(
-                        idPessoa,
+                        cpf,
                         rs.getInt("idProduto"),
                         rs.getInt("quantidade"),
                         rs.getDouble("preco_total")
@@ -80,26 +80,27 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
         }
         return carrinho;
     }
+
     @Override
-    public void finalizarCompra(int idPessoa) throws SQLException {
+    public void finalizarCompra(String cpf) throws SQLException {
         try (Connection connection = Conexao.getConnection()) {
-            String limparCarrinhoSql = "DELETE FROM Carrinho WHERE idPessoa = ?";
+            String limparCarrinhoSql = "DELETE FROM Carrinho WHERE cpf = ?";
             try (PreparedStatement psLimpar = connection.prepareStatement(limparCarrinhoSql)) {
-                psLimpar.setInt(1, idPessoa);
+                psLimpar.setString(1, cpf);
                 psLimpar.executeUpdate();
             }
         }
     }
-    public int verificarUsuario(String email, String senha) throws SQLException {
+    public String verificarUsuario(String email, String senha) throws SQLException {
         try (Connection connection = Conexao.getConnection()) {
-            String verificarPessoaSql = "SELECT id FROM Pessoa WHERE email = ? AND senha = ?";
+            String verificarPessoaSql = "SELECT cpf FROM Pessoa WHERE email = ? AND senha = ?";
             try (PreparedStatement psVerificar = connection.prepareStatement(verificarPessoaSql)) {
                 psVerificar.setString(1, email);
                 psVerificar.setString(2, senha);
                 ResultSet rsPessoa = psVerificar.executeQuery();
 
                 if (rsPessoa.next()) {
-                    return rsPessoa.getInt("id");
+                    return rsPessoa.getString("cpf");
                 } else {
                     throw new RuntimeException("Email ou senha inválidos.");
                 }
