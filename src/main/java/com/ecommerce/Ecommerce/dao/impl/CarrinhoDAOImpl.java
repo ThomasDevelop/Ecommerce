@@ -59,8 +59,6 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
 
         }
     }
-
-
     @Override
     public List<CarrinhoDTO> listarCarrinhoPorPessoa(int idPessoa) throws SQLException {
         List<CarrinhoDTO> carrinho = new ArrayList<>();
