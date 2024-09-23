@@ -47,7 +47,7 @@ public class EcommerceApplication {
                         System.out.println("Programa finalizado.");
                         System.exit(0);
                     default:
-                        System.out.println("Opção inválida. Tente novamente.");
+                        System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA_TENTE_NOVAMENTE);
                         break;
                 }
             } else {
@@ -79,7 +79,7 @@ public class EcommerceApplication {
                             nome = scanner.nextLine();
 
                             if (!nome.matches("[a-zA-Z\\s]+")) {
-                                System.out.println("O Nome so pode conter letras. ");
+                                System.out.println(MensagensConstanteUtils.O_NOME_SO_PODE_LETRAS);
                             }
                         } while (!nome.matches("[a-zA-Z\\s]+"));
 
@@ -105,7 +105,7 @@ public class EcommerceApplication {
                             try {
                                 preco = Double.parseDouble(precoStr);
                                 if (preco <= 0) {
-                                    System.out.println("Preço inválido.");
+                                    System.out.println(MensagensConstanteUtils.PRECO_INVALIDO);
                                     preco = -1.0;
                                 }
                             } catch (NumberFormatException e) {
@@ -149,7 +149,7 @@ public class EcommerceApplication {
                     case 0:
                         return;
                     default:
-                        System.out.println("Opção inválida. Tente novamente.");
+                        System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA_TENTE_NOVAMENTE);
                         break;
                 }
             } else {
@@ -169,16 +169,16 @@ public class EcommerceApplication {
                 System.out.println("Digite o seu nome:");
                 nome = scanner.nextLine();
                 if (!nome.matches("[a-zA-Z\\s]+")) {
-                    System.out.println("O nome deve ser com letras.");
+                    System.out.println(MensagensConstanteUtils.O_NOME_SO_PODE_LETRAS);
                 }
             } while (!nome.matches("[a-zA-Z\\s]+"));
             do {
                 System.out.println("Digite o email:");
                 email = scanner.nextLine();
                 if (!ValidarEmail.validar(email)) {
-                    System.out.println("Email inválido. Insira um email válido.");
+                    System.out.println(MensagensConstanteUtils.INSIRA_EMAIL_VALIDO);
                 } else if (pessoaService.emailExiste(email)) {
-                    System.out.println("Erro: O email já está cadastrado.");
+                    System.out.println(MensagensConstanteUtils.EMAIL_JA_CADASTRADO);
                     return;
                 }
             } while (!ValidarEmail.validar(email));
@@ -267,7 +267,7 @@ public class EcommerceApplication {
                 String inputProduto = scanner.nextLine();
                 idProduto = Integer.parseInt(inputProduto);
                 if (idProduto < 0) {
-                    System.out.println("O ID do produto invalido.");
+                    System.out.println(MensagensConstanteUtils.ID_PRODUTO_INVALIDO);
                 }
             } catch (NumberFormatException e) {
                 System.out.println(MensagensConstanteUtils.ENTRADA_INVALIDA_NUMEROS);
