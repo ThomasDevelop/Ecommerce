@@ -2,6 +2,7 @@ package com.ecommerce.Ecommerce.usecase;
 
 import com.ecommerce.Ecommerce.dao.impl.CarrinhoDAOImpl;
 import com.ecommerce.Ecommerce.dto.CarrinhoDTO;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,8 +15,8 @@ public class CarrinhoService {
         try {
             carrinhoDAOImpl.adicionarAoCarrinho(carrinhoDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao adicionar produto ao carrinho");
+
+            System.out.println(MensagensConstanteUtils.ERRO_PRODUTO_PARA_CARRINHO);
         }
     }
 
@@ -33,12 +34,12 @@ public class CarrinhoService {
                     System.out.println("-------------------");
                 }
             } else {
-                System.out.println("Nenhum produto encontrado no carrinho");
+                System.out.println(MensagensConstanteUtils.NENHUM_PRODUTO_ENCONTRADO);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar carrinho: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao listar carrinho para o usuário com CPF: " + cpf, e);
+            System.out.println(MensagensConstanteUtils.ERRO_AO_LISTAR_CARRINHO);
+
+            throw new RuntimeException(MensagensConstanteUtils.ERRO_AO_LISTAR_CARRINHO_POR_CPF + cpf, e);
         }
     }
 
@@ -50,7 +51,7 @@ public class CarrinhoService {
             double valorTotalCompra = carrinho.stream().mapToDouble(CarrinhoDTO::getPrecoTotal).sum();
 
             if (carrinho.isEmpty()) {
-                System.out.println("Não há itens no carrinho\n");
+                System.out.println(MensagensConstanteUtils.NAO_TEM_ITENS_NO_CARRINHO);
                 return;
             }
             System.out.println("Itens no carrinho:");
@@ -63,13 +64,10 @@ public class CarrinhoService {
 
             carrinhoDAOImpl.finalizarCompra(cpf);
         } catch (SQLException e) {
-            System.err.println("Erro ao finalizar a compra: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Erro ao finalizar a compra para o usuário com o email: " + email, e);
+            System.out.println(MensagensConstanteUtils.ERRO_AO_FINALIZAR_COMPRA);
+            throw new RuntimeException(MensagensConstanteUtils.ERRO_AO_FINALIZAR_COMPRA_PARA_USUARIO_EMAIL + email, e);
         } catch (Exception e) {
-            System.err.println("Erro inesperado: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Ocorreu um erro inesperado ao finalizar a compra.", e);
+            throw new RuntimeException(MensagensConstanteUtils.ERRO_INESPERADO, e);
         }
     }
 }

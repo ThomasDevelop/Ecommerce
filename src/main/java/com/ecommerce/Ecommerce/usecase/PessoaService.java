@@ -2,6 +2,7 @@ package com.ecommerce.Ecommerce.usecase;
 
 import com.ecommerce.Ecommerce.dao.impl.PessoaDAOImpl;
 import com.ecommerce.Ecommerce.dto.PessoaDTO;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,10 +21,10 @@ public class PessoaService {
                     System.out.println("-------------------");
                 }
             } else {
-                System.out.println("Nenhuma pessoa encontrada.");
+                System.out.println(MensagensConstanteUtils.NENHUM_PESSOA_ENCONTRADA);
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao listar pessoa: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_AO_LISTAR_PESSOA);
         }
     }
 
@@ -31,16 +32,16 @@ public class PessoaService {
         PessoaDTO pessoaDTO = new PessoaDTO(nome, email, cpf, senha);
         try {
             if (pessoaDAOImpl.emailExiste(email)) {
-                System.out.println("Erro: O email já está cadastrado.");
+                System.out.println(MensagensConstanteUtils.ERRO_O_EMAIL_JA_EXISTE);
                 return;
             }
             if (pessoaDAOImpl.cpfExiste(cpf)) {
-                System.out.println("Erro: O CPF já está cadastrado.");
+                System.out.println(MensagensConstanteUtils.ERRO_O_CPF_JA_EXISTE);
                 return;
             }
             pessoaDAOImpl.adicionarPessoa(pessoaDTO);
         } catch (SQLException e) {
-            System.out.println("Erro ao adicionar pessoa: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_AO_ADICIONAR_PESSOA);
         }
     }
 
@@ -48,7 +49,7 @@ public class PessoaService {
         try {
             return pessoaDAOImpl.emailExiste(email);
         } catch (SQLException e) {
-            System.out.println("Erro ao verificar o email: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_AO_VERIFICAR_EMAIL_PESSOA);
         }
         return false;
     }
@@ -57,7 +58,7 @@ public class PessoaService {
         try {
             return pessoaDAOImpl.cpfExiste(cpf);
         } catch (SQLException e) {
-            System.out.println("Erro ao verificar o CPF: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_AO_VERIFICAR_CPF_PESSOA);
         }
         return false;
     }

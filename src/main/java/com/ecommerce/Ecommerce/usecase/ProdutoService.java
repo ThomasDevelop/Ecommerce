@@ -3,6 +3,7 @@ package com.ecommerce.Ecommerce.usecase;
 
 import com.ecommerce.Ecommerce.dao.impl.ProdutoDAOImpl;
 import com.ecommerce.Ecommerce.dto.ProdutoDTO;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ProdutoService {
                 System.out.println("-------------------");
             }
         } else {
-            System.out.println("Nenhum produto encontrado.");
+            System.out.println(MensagensConstanteUtils.NENHUM_PRODUTO_ENCONTRADO_PRODUTO);
         }
     }
 
@@ -28,7 +29,7 @@ public class ProdutoService {
         try {
             produtoDaoImpl.adicionarProduto(produtoDTO);
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar produto: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_AO_ADICIONAR_PRODUTO);
         }
     }
 }
