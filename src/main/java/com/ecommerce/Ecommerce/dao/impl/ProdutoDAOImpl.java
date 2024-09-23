@@ -14,10 +14,11 @@ import java.util.List;
 public class ProdutoDAOImpl implements IProdutoDAO {
     @Override
     public List<ProdutoDTO> listarProduto() {
-        List<ProdutoDTO> produtos = new ArrayList<>();;
-        try (Connection connection = Conexao.getConnection()) {
-            String sql = "SELECT * FROM produto";
-            PreparedStatement ps = connection.prepareStatement(sql);
+        List<ProdutoDTO> produtos = new ArrayList<>();
+        String sql = "SELECT * FROM produto";
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -36,9 +37,10 @@ public class ProdutoDAOImpl implements IProdutoDAO {
     }
     @Override
     public void adicionarProduto(ProdutoDTO produtoDTO) {
-        try (Connection connection = Conexao.getConnection()){
-            String sql = "INSERT INTO Produto (nome, quantidade, preco) VALUES (?, ?, ?)";
-         PreparedStatement ps = connection.prepareStatement(sql);
+        String sql = "INSERT INTO Produto (nome, quantidade, preco) VALUES (?, ?, ?)";
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, produtoDTO.getNome());
             ps.setInt(2, produtoDTO.getQuantidade());
             ps.setDouble(3, produtoDTO.getPreco());

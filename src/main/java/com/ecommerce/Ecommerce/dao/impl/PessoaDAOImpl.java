@@ -16,8 +16,10 @@ public class PessoaDAOImpl implements IPessoaDAO {
     public List<PessoaDTO> listarPessoas() throws SQLException {
         List<PessoaDTO> listaPessoas = new ArrayList<>();
         String sql = "SELECT * FROM PESSOA";
-        try (Connection connection = Conexao.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -43,8 +45,8 @@ public class PessoaDAOImpl implements IPessoaDAO {
         }
 
         String sql = "INSERT INTO PESSOA (nome, email, cpf, senha) VALUES (?, ?, ?, ?)";
-        try (Connection connection = Conexao.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, pessoaDTO.getNome());
             ps.setString(2, pessoaDTO.getEmail());
             ps.setString(3, pessoaDTO.getCpf());
@@ -68,8 +70,9 @@ public class PessoaDAOImpl implements IPessoaDAO {
 
     public boolean cpfExiste(String cpf) throws SQLException {
         String sql = "SELECT COUNT(*) FROM PESSOA WHERE cpf = ?";
-        try (Connection connection = Conexao.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = Conexao.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
             ps.setString(1, cpf);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
