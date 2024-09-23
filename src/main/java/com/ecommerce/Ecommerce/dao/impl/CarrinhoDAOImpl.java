@@ -3,6 +3,7 @@ package com.ecommerce.Ecommerce.dao.impl;
 import com.ecommerce.Ecommerce.config.Conexao;
 import com.ecommerce.Ecommerce.dao.ICarrinhoDAO;
 import com.ecommerce.Ecommerce.dto.CarrinhoDTO;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +24,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             ResultSet rsProduto = psVerificarProduto.executeQuery();
 
             if (!rsProduto.next()) {
-                System.out.println("Produto não encontrado.");
+                System.out.println(MensagensConstanteUtils.PRODUTO_NAO_ENCONTRADO_DAO);
                 return;
             }
 
@@ -33,7 +34,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             ResultSet rsPessoa = psVerificarPessoa.executeQuery();
 
             if (!rsPessoa.next()) {
-                System.out.println("Usuário com o CPF " + carrinhoDTO.getCpf() + " não encontrado.");
+                System.out.println(MensagensConstanteUtils.USUARIO_COM_CPF + carrinhoDTO.getCpf() + MensagensConstanteUtils.NAO_ENCONTRADO_COM_CPF);
                 return;
             }
 
@@ -41,7 +42,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             double preco = rsProduto.getDouble("preco");
 
             if (quantidadeDisponivel < carrinhoDTO.getQuantidade()) {
-                System.out.println("Quantidade insuficiente no estoque.");
+                System.out.println(MensagensConstanteUtils.QUANTIDADE_INSUFICIENTE_NO_ESTOQUE);
                 return;
             }
 
@@ -106,7 +107,7 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             if (rsPessoa.next()) {
                 return rsPessoa.getString("cpf");
             } else {
-                throw new RuntimeException("Email ou senha inválidos.");
+                throw new RuntimeException(MensagensConstanteUtils.EMAIL_SENHA_INVALIDOS);
             }
         }
     }

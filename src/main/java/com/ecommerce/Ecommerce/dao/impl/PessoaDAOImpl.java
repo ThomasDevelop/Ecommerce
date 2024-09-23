@@ -3,6 +3,7 @@ package com.ecommerce.Ecommerce.dao.impl;
 import com.ecommerce.Ecommerce.config.Conexao;
 import com.ecommerce.Ecommerce.dao.IPessoaDAO;
 import com.ecommerce.Ecommerce.dto.PessoaDTO;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,6 @@ public class PessoaDAOImpl implements IPessoaDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 PessoaDTO pessoa = new PessoaDTO(
                         rs.getString("nome"),
@@ -38,10 +38,10 @@ public class PessoaDAOImpl implements IPessoaDAO {
     @Override
     public void adicionarPessoa(PessoaDTO pessoaDTO) throws SQLException {
         if (emailExiste(pessoaDTO.getEmail())) {
-            throw new SQLException("Erro ao adicionar pessoa: O email já existe.");
+            throw new SQLException(MensagensConstanteUtils.ERRO_PESSOA_EMAIL_EXISTENTE);
         }
         if (cpfExiste(pessoaDTO.getCpf())) {
-            throw new SQLException("Erro ao adicionar pessoa: O CPF já existe.");
+            throw new SQLException(MensagensConstanteUtils.ERRO_PESSOA_CPF_EXISTENTE);
         }
 
         String sql = "INSERT INTO PESSOA (nome, email, cpf, senha) VALUES (?, ?, ?, ?)";

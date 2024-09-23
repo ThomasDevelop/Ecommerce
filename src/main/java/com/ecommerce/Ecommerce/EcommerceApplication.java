@@ -3,6 +3,7 @@ package com.ecommerce.Ecommerce;
 import com.ecommerce.Ecommerce.usecase.CarrinhoService;
 import com.ecommerce.Ecommerce.usecase.PessoaService;
 import com.ecommerce.Ecommerce.usecase.ProdutoService;
+import com.ecommerce.Ecommerce.util.MensagensConstanteUtils;
 import com.ecommerce.Ecommerce.util.ValidaOpcao;
 import com.ecommerce.Ecommerce.util.ValidarEmail;
 import com.ecommerce.Ecommerce.util.ValidarSenha;
@@ -18,7 +19,7 @@ public class EcommerceApplication {
     private static PessoaService pessoaService = new PessoaService();
     private static CarrinhoService carrinhoService = new CarrinhoService();
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         exibirMenuPrincipal();
     }
 
@@ -50,7 +51,7 @@ public class EcommerceApplication {
                         break;
                 }
             } else {
-                System.out.println("Opção inválida.");
+                System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA);
             }
         }
     }
@@ -89,11 +90,11 @@ public class EcommerceApplication {
                             try {
                                 quantidade = Integer.parseInt(quantidadeStr);
                                 if (quantidade <= 0) {
-                                    System.out.println("Quantidade inválida.");
+                                    System.out.println(MensagensConstanteUtils.QUANTIDADE_INVALIDA);
                                     quantidade = -1;
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println("Entrada inválida. So pode numeros");
+                                System.out.println(MensagensConstanteUtils.ENTRADA_INVALIDA_NUMEROS);
                             }
                         } while (quantidade <= 0);
 
@@ -108,7 +109,7 @@ public class EcommerceApplication {
                                     preco = -1.0;
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println("Entrada inválida.");
+                                System.out.println(MensagensConstanteUtils.ENTRADA_INVALIDA_NUMEROS);
                             }
 
                         } while (preco <= 0);
@@ -118,11 +119,11 @@ public class EcommerceApplication {
                     case 0:
                         return;
                     default:
-                        System.out.println("Opção inválida. Tente novamente.");
+                        System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA_TENTE_NOVAMENTE);
                         break;
                 }
             } else {
-                System.out.println("Opção inválida. Digite uma opção numérica.");
+                System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA_DIGITE_OPCAO_NUMERICA);
             }
         }
     }
@@ -152,7 +153,7 @@ public class EcommerceApplication {
                         break;
                 }
             } else {
-                System.out.println("Opção inválida. Digite uma opção numérica.");
+                System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA_DIGITE_OPCAO_NUMERICA);
             }
         }
     }
@@ -185,9 +186,9 @@ public class EcommerceApplication {
                 System.out.println("Digite o CPF:");
                 cpf = scanner.nextLine();
                 if (!cpf.matches("\\d{11}")) {
-                    System.out.println("CPF inválido. O CPF deve conter exatamente 11 números.");
+                    System.out.println(MensagensConstanteUtils.CPF_INVALIDO_DEVE_TER_11_DIGITO);
                 } else if (pessoaService.cpfExiste(cpf)) {
-                    System.out.println("Erro: O CPF já está cadastrado.");
+                    System.out.println(MensagensConstanteUtils.ERRO_CPF_JA_CADASTRADO);
                     return;
                 }
             } while (!cpf.matches("\\d{11}"));
@@ -195,13 +196,13 @@ public class EcommerceApplication {
                 System.out.println("Digite sua senha (deve ter 8 ou mais caracteres):");
                 senha = scanner.nextLine();
                 if (!ValidarSenha.validar(senha)) {
-                    System.out.println("Senha inválida. A senha deve ter pelo menos 8 caracteres.");
+                    System.out.println(MensagensConstanteUtils.ERRO_SENHA_INVALIDA_MINIMO_8);
                 }
             } while (!ValidarSenha.validar(senha));
             pessoaService.adicionarPessoa(nome, email, cpf, senha);
             System.out.println("Usuário adicionado com sucesso!");
         } catch (InputMismatchException e) {
-            System.out.println("Erro de input: " + e.getMessage());
+            System.out.println(MensagensConstanteUtils.ERRO_LEITURA);
         }
     }
 
@@ -233,7 +234,7 @@ public class EcommerceApplication {
                     exibirMenuPrincipal();
                     return;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println(MensagensConstanteUtils.OPCAO_INVALIDA);
                     break;
             }
         }
@@ -253,10 +254,10 @@ public class EcommerceApplication {
                     cpf = inputPessoa;
                     break;
                 } else {
-                    System.out.println("CPF inválido.");
+                    System.out.println(MensagensConstanteUtils.CPF_INVALIDO);
                 }
             } catch (Exception e) {
-                System.out.println("Entrada inválida. O CPF deve conter apenas números.");
+                System.out.println(MensagensConstanteUtils.ERRO_INVALIDA_CPF_DEVE_CONTER_NUMEROS);
             }
         }
 
@@ -269,7 +270,7 @@ public class EcommerceApplication {
                     System.out.println("O ID do produto invalido.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida.");
+                System.out.println(MensagensConstanteUtils.ENTRADA_INVALIDA_NUMEROS);
             }
         }
         while (quantidade <= 0) {
@@ -278,10 +279,10 @@ public class EcommerceApplication {
                 String inputQuantidade = scanner.nextLine();
                 quantidade = Integer.parseInt(inputQuantidade);
                 if (quantidade <= 0) {
-                    System.out.println("A quantidade deve ser maior que zero.");
+                    System.out.println(MensagensConstanteUtils.QUANTIDADE_MAIOR_QUE_ZERO);
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida.");
+                System.out.println(MensagensConstanteUtils.ENTRADA_INVALIDA_NUMEROS);
             }
         }
         carrinhoService.adicionarAoCarrinho(cpf, idProduto, quantidade);
@@ -295,14 +296,14 @@ public class EcommerceApplication {
             System.out.println("Digite o seu email:");
             email = scanner.nextLine();
             if (!ValidarEmail.validar(email)) {
-                System.out.println("Email inválido.");
+                System.out.println(MensagensConstanteUtils.EMAIL_INVALIDO);
             }
         } while (!ValidarEmail.validar(email));
         do {
             System.out.println("Digite a sua senha:");
             senha = scanner.nextLine();
             if (!ValidarSenha.validar(senha)) {
-                System.out.println("Senha inválida.");
+                System.out.println(MensagensConstanteUtils.SENHA_INVALIDO);
             }
         } while (!ValidarSenha.validar(senha));
         carrinhoService.finalizarCompra(email, senha);
