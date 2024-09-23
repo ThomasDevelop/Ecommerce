@@ -1,5 +1,9 @@
 package com.ecommerce.Ecommerce;
 
+import com.ecommerce.Ecommerce.enuns.MenuCarrinhoEnuns;
+import com.ecommerce.Ecommerce.enuns.MenuPrincipalEnuns;
+import com.ecommerce.Ecommerce.enuns.MenuProdutoEnuns;
+import com.ecommerce.Ecommerce.enuns.MenuUsuarioEnuns;
 import com.ecommerce.Ecommerce.usecase.CarrinhoService;
 import com.ecommerce.Ecommerce.usecase.PessoaService;
 import com.ecommerce.Ecommerce.usecase.ProdutoService;
@@ -8,7 +12,6 @@ import com.ecommerce.Ecommerce.util.ValidaOpcao;
 import com.ecommerce.Ecommerce.util.ValidarEmail;
 import com.ecommerce.Ecommerce.util.ValidarSenha;
 
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -25,11 +28,8 @@ public class EcommerceApplication {
 
     public static void exibirMenuPrincipal() {
         while (true) {
-            System.out.println("\n     Ecommerce\nEscolha uma opção digitando entre 1, 2, 3 ou 0 para sair");
-            System.out.println("[1] Produto");
-            System.out.println("[2] Cadastre-se");
-            System.out.println("[3] Fazer a Compra");
-            System.out.println("[0] Para sair.");
+            System.out.println(MenuPrincipalEnuns.MENU_PRINCIPAL_ENUNS.getMensagem());
+
 
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
@@ -58,10 +58,7 @@ public class EcommerceApplication {
 
     public static void exibirMenuProduto() {
         while (true) {
-            System.out.println("\nSessão Menu Produto");
-            System.out.println("[1] Ver Produtos.");
-            System.out.println("[2] Adicionar Produto.");
-            System.out.println("[0] Voltar para o menu principal.");
+            System.out.println(MenuProdutoEnuns.MENU_PRODUTO_ENUNS.getMensagem());
 
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
@@ -130,10 +127,7 @@ public class EcommerceApplication {
 
     public static void exibirMenuPessoa() {
         while (true) {
-            System.out.println("\nSessão Menu Usuario");
-            System.out.println("[1] Ver Usuarios.");
-            System.out.println("[2] Adicionar Usuario.");
-            System.out.println("[0] Voltar para o menu principal.");
+            System.out.println(MenuUsuarioEnuns.MENU_USUARIO_ENUNS.getMensagem());
 
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
@@ -207,12 +201,8 @@ public class EcommerceApplication {
     }
 
     public static void exibirMenuCarrinho() {
-        System.out.println("\nMenu Carrinho");
         while (true) {
-            System.out.println("[1] Adicionar Produto ao Carrinho");
-            System.out.println("[2] Finalizar Compra");
-            System.out.println("[3] Produtos no carrinho");
-            System.out.println("[0] Voltar");
+            System.out.println(MenuCarrinhoEnuns.MENU_CARRINHO_ENUNS.getMensagem());
 
             String entrada = scanner.nextLine();
             if (ValidaOpcao.eNumerico(entrada)) {
