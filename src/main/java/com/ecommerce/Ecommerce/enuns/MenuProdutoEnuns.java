@@ -5,7 +5,7 @@ public enum MenuProdutoEnuns {
     MENU_PRODUTO_ENUNS("""
             ╔════════════════════════════════════════════╗
             ║            Sessão Menu Produto             ║
-            ║ [1] - Produto                              ║
+            ║ [1] - Produtos disponíveis                 ║
             ║ [2] - Adicionar Produto                    ║
             ║ [0] - Voltar para o menu principal         ║
             ╚════════════════════════════════════════════╝

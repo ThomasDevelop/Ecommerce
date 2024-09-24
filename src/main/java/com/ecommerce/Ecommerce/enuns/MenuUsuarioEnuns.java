@@ -7,7 +7,7 @@ public enum MenuUsuarioEnuns {
             ║            Sessão Menu usuario             ║
             ║ [1] - Ver Usuarios                         ║
             ║ [2] - Adicionar Usuario                    ║
-            ║ [0] - Voltar para o menu principal         ║
+            ║ [0] - Voltar                               ║
             ╚════════════════════════════════════════════╝
             Digite uma opção:""");
 

@@ -65,9 +65,9 @@ public class CarrinhoService {
             carrinhoDAOImpl.finalizarCompra(cpf);
         } catch (SQLException e) {
             System.out.println(MensagensConstanteUtils.ERRO_AO_FINALIZAR_COMPRA);
-            throw new RuntimeException(MensagensConstanteUtils.ERRO_AO_FINALIZAR_COMPRA_PARA_USUARIO_EMAIL + email, e);
+            System.out.println(MensagensConstanteUtils.ERRO_AO_FINALIZAR_COMPRA_PARA_USUARIO_EMAIL + email);
         } catch (Exception e) {
-            throw new RuntimeException(MensagensConstanteUtils.ERRO_INESPERADO, e);
+            System.out.println(MensagensConstanteUtils.ERRO_INESPERADO);
         }
     }
 }
