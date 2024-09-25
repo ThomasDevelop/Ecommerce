@@ -17,9 +17,10 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
     public void adicionarAoCarrinho(CarrinhoDTO carrinhoDTO) throws SQLException {
         String verificarProdutoSql = "SELECT quantidade, preco FROM Produto WHERE idProduto = ?";
 
-        try (Connection connection = Conexao.getConnection();
-             PreparedStatement psVerificarProduto = connection.prepareStatement(verificarProdutoSql);
-        ) {
+        try (Connection connection = Conexao.getConnection()) {
+
+            PreparedStatement psVerificarProduto = connection.prepareStatement(verificarProdutoSql);
+
             psVerificarProduto.setInt(1, carrinhoDTO.getIdProduto());
             ResultSet rsProduto = psVerificarProduto.executeQuery();
 
@@ -59,6 +60,8 @@ public class CarrinhoDAOImpl implements ICarrinhoDAO {
             psAtualizar.setInt(1, carrinhoDTO.getQuantidade());
             psAtualizar.setInt(2, carrinhoDTO.getIdProduto());
             psAtualizar.executeUpdate();
+
+            ps.close();
 
         }
     }
